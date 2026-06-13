@@ -1,15 +1,22 @@
-node_modules/
-
+# Python
 venv/
-
 __pycache__/
 
-.env
+# Node
+node_modules/
 
+# Build outputs
+build/
 dist/
 
-build/
+# Environment files
+.env
 
+# IDE/editor
 .idea/
-
 .vscode/
+
+# Logs and uploads
+*.log
+uploads/
+storage/

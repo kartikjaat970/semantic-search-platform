@@ -1,20 +1,21 @@
 version: "3.9"
 
 services:
-
   db:
-
     image: pgvector/pgvector:pg16
-
-    restart: always
-
     ports:
       - "5432:5432"
-
     environment:
 
       POSTGRES_USER: postgres
 
       POSTGRES_PASSWORD: admin
 
-      POSTGRES_DB: semanticdb
+      POSTGRES_DB: ragdb
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+
+  postgres_data:

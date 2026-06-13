@@ -1,114 +1,33 @@
-import {
-
-useState
-
-}
-
-from "react";
+import { useState } from "react";
 
 import api from "../api";
 
-
-export default function Search(){
-
-const[
-query,
-setQuery
-]=useState("");
-
-const[
-results,
-setResults
-]=useState([]);
+import Result from "./Result";
 
 
-const run=
-async()=>{
+export default function Search() {
+	const [query, setQuery] = useState("");
+	const [query, setQuery] = useState("");
+	const [answer, setAnswer] = useState("");
 
-const res=
+	const ask = async () => {
+		try {
+			const res = await api.post("/chat", { query });
+			setAnswer(res.data.answer);
+		} catch {
+			setAnswer("Backend not ready");
+		}
+	};
 
-await api.post(
+	return (
+		<div className="card">
+			<h2>Ask AI</h2>
 
-"/search",
+			<input value={query} onChange={e => setQuery(e.target.value)} />
 
-{
+			<button onClick={ask}>Ask</button>
 
-text:
-
-query
-
-}
-
-);
-
-setResults(
-res.data
-);
-
-};
-
-
-return(
-
-<div>
-
-<input
-
-value={query}
-
-onChange={
-
-e=>
-
-setQuery(
-e.target.value
-)
-
-}
-
-/>
-
-<button
-
-onClick={run}
-
->
-
-Search
-
-</button>
-
-
-{
-
-results.map(
-
-(
-
-r,
-
-i
-
-)=>
-
-<div key={i}>
-
-{r.text}
-
-<br/>
-
-Score:
-
-{r.score}
-
-</div>
-
-)
-
-}
-
-</div>
-
-);
-
+			<Result text={answer} />
+		</div>
+	);
 }

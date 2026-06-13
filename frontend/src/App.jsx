@@ -1,31 +1,18 @@
-import Upload from "./components/Upload";
+import "./index.css";
 
+import Upload from "./components/Upload";
 import Search from "./components/Search";
 
+function App() {
+	return (
+		<div className="container">
+			<h1>AI Semantic Search</h1>
 
-function App(){
+			<Upload />
 
-return(
-
-<div>
-
-<h1>
-
-Semantic Search Platform
-
-</h1>
-
-<Upload/>
-
-<hr/>
-
-<Search/>
-
-</div>
-
-);
-
+			<Search />
+		</div>
+	);
 }
-
 
 export default App;

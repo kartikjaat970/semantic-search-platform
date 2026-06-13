@@ -13,12 +13,14 @@ The platform transforms uploaded text into high-dimensional vector representatio
 Users can upload text documents for indexing. The system:
 - extracts content
 - cleans and preprocesses text
+- splits content into chunks
 - generates embeddings
 - stores original text and vectors
+- prepares data for retrieval-ready AI responses
 
 ### Embedding pipeline
 Each document is processed using a transformer embedding model.
-Pipeline: Document -> Text extraction -> Embedding generation -> Vector storage -> Similarity index
+Pipeline: Document -> Text extraction -> Chunking -> Embedding generation -> Vector storage -> Similarity index
 
 ### Semantic search
 Search uses embeddings instead of SQL LIKE or exact matching, so queries can return relevant results even without identical words.
@@ -39,6 +41,9 @@ Backend:
 - pgvector
 - Sentence Transformers
 
+AI:
+- Sentence Transformers
+
 Frontend:
 - React
 - Axios
@@ -48,6 +53,12 @@ Deployment:
 - Docker Compose
 
 ## Run
+Option 1: Docker Compose
+```bash
+docker compose up
+```
+
+Option 2: Manual start
 Backend:
 ```bash
 cd backend

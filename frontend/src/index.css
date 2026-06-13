@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  padding: 40px;
+  font-family: sans-serif;
+  background: #111;
+  color: white;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+textarea,
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 12px;
+  cursor: pointer;
+}
+
+.card {
+  padding: 20px;
+  margin-top: 20px;
+  background: #222;
+  border-radius: 10px;
+}
