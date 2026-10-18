@@ -1,78 +1,115 @@
 # Semantic Search Platform
-Semantic Search Platform is a full-stack application for intelligent document retrieval using vector embeddings instead of traditional keyword matching.
 
-Author: Kartik Chaudhary
+A full-stack app for searching documents by meaning instead of keywords. Text is split into chunks, converted to vector embeddings, and stored in PostgreSQL with pgvector. Natural-language queries are matched against those vectors, so results can be relevant even when they share no words with the query.
 
-Feel free to use the code ^ ^
+* **Author:** Kartik Chaudhary. Feel free to use the code.
+* **Status:** Work in progress. Upload and indexing work. The search endpoint is being migrated to pgvector (see Roadmap).
 
-The platform transforms uploaded text into high-dimensional vector representations and stores them in PostgreSQL using pgvector. Users can search using natural language and retrieve semantically similar content ranked by similarity.
+---
 
-## Functionality
+## How It Works
 
-### Document upload
-Users can upload text documents for indexing. The system:
-- extracts content
-- cleans and preprocesses text
-- splits content into chunks
-- generates embeddings
-- stores original text and vectors
-- prepares data for retrieval-ready AI responses
+### Indexing
+Text → split into 500-character chunks → embed each chunk → store text + vector in PostgreSQL
 
-### Embedding pipeline
-Each document is processed using a transformer embedding model.
-Pipeline: Document -> Text extraction -> Chunking -> Embedding generation -> Vector storage -> Similarity index
+### Searching
+Query → embed → compare to stored vectors (cosine similarity) → top 5 results with scores
 
-### Semantic search
-Search uses embeddings instead of SQL LIKE or exact matching, so queries can return relevant results even without identical words.
-Flow: User query -> Embedding generation -> Vector comparison -> Top-ranked results
+* **Embedding model:** `all-MiniLM-L6-v2` from Sentence Transformers (384 dimensions, normalized vectors)
+* **Storage:** A `documents` table with a pgvector `Vector(384)` column
 
-### Dashboard
-Frontend capabilities:
-- Upload documents
-- Search interface
-- Similarity score display
-- Ranked results
-- API integration
+---
 
-## Tech stack
-Backend:
-- FastAPI
-- PostgreSQL
-- pgvector
-- Sentence Transformers
+## Tech Stack
 
-AI:
-- Sentence Transformers
+| Layer | Tools |
+| :--- | :--- |
+| **Backend** | FastAPI, SQLAlchemy, psycopg2 |
+| **Database** | PostgreSQL 16 + pgvector (via the `pgvector/pgvector:pg16` Docker image) |
+| **Embeddings** | Sentence Transformers |
+| **Frontend** | React, Axios |
 
-Frontend:
-- React
-- Axios
+---
 
-Deployment:
-- Docker
-- Docker Compose
+## Project Structure
 
-## Run
-Option 1: Docker Compose
-```bash
-docker compose up
+```text
+backend/
+  main.py              FastAPI app and CORS setup
+  database.py          SQLAlchemy engine and session
+  models/document.py   Document model (text + Vector(384))
+  routes/upload.py     POST /upload
+  services/
+    chunk_service.py   Fixed-size text chunking
+    embedding_service.py  Sentence Transformers wrapper
+  api/                 Earlier prototype code (being replaced)
+frontend/
+  src/                 React app (Upload, Search, Result components)
+docker-compose.yml     PostgreSQL + pgvector
 ```
 
-Option 2: Manual start
-Backend:
+---
+
+## Getting Started
+
+### Prerequisites
+Docker, Python 3.10+, Node.js 18+
+
+### 1. Start the Database
+
+```bash
+docker compose up -d db
+```
+
+Then enable the pgvector extension once:
+
+```bash
+docker compose exec db psql -U postgres -d ragdb -c "CREATE EXTENSION IF NOT EXISTS vector;"
+```
+
+### 2. Start the Backend
+
 ```bash
 cd backend
 pip install -r requirements.txt
 uvicorn main:app --reload
 ```
+*Note: The first run downloads the embedding model, so it may take a minute.*
 
-Frontend:
+### 3. Start the Frontend
+
 ```bash
 cd frontend
 npm install
 npm start
 ```
 
-Open:
-- Frontend: http://localhost:3000
-- Backend: http://localhost:8000
+### Access Endpoints
+* **Frontend:** `http://localhost:3000`
+* **Backend:** `http://localhost:8000`
+
+> ⚠️ **Warning:** The database connection string is currently set in `backend/database.py` and matches the credentials in `docker-compose.yml`. These are development defaults.
+
+---
+
+## API
+
+| Method | Endpoint | Body | Response |
+| :--- | :--- | :--- | :--- |
+| **POST** | `/upload` | `{"text": "..."}` | `{"status": "indexed", "chunks": N}` |
+| **POST** | `/search` | `{"text": "..."}` | `[{"text": "...", "score": 0.82}, ...]` (top 5) |
+
+*Note: `/search` is not yet registered in `main.py`. See the roadmap.*
+
+---
+
+## Roadmap
+
+- [ ] Register the search route and use pgvector's cosine distance operator (`<=>`) instead of comparing vectors in Python
+- [ ] Add an HNSW or IVFFlat index on the embedding column
+- [ ] Remove the old `api/` prototype code and merge the duplicate `database.py` files
+- [ ] Add Dockerfiles for the backend and frontend so docker compose up runs the whole app
+- [ ] Add `react-scripts` to `frontend/package.json`
+- [ ] Support file upload (PDF, TXT, DOCX) with text extraction and cleaning
+- [ ] Smarter chunking (sentence or paragraph boundaries, with overlap)
+- [ ] Move database credentials and URLs into environment variables
