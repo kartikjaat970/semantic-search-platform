@@ -16,6 +16,7 @@ input {
   width: 100%;
   padding: 12px;
   margin-bottom: 10px;
+  box-sizing: border-box;
 }
 
 button {
@@ -23,9 +24,35 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .card {
   padding: 20px;
   margin-top: 20px;
   background: #222;
   border-radius: 10px;
+}
+
+.result {
+  padding: 12px;
+  margin-top: 10px;
+  background: #2c2c2c;
+  border-radius: 8px;
+}
+
+.result p {
+  margin: 6px 0 0;
+  white-space: pre-wrap;
+}
+
+.score {
+  font-size: 0.85em;
+  color: #7dd3a8;
+}
+
+.error {
+  color: #ff8a80;
 }
