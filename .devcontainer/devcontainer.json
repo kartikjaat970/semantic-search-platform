@@ -1,0 +1,14 @@
+{
+  "name": "Semantic Search Platform",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "forwardPorts": [3000, 8000],
+  "portsAttributes": {
+    "3000": { "label": "Frontend (open this one)", "onAutoForward": "openBrowser" },
+    "8000": { "label": "Backend API (docs at /docs)" }
+  },
+  "postStartCommand": "bash .devcontainer/start.sh",
+  "hostRequirements": { "cpus": 2, "memory": "8gb" }
+}

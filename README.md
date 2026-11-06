@@ -54,7 +54,19 @@ docker-compose.yml       db + backend + frontend
 
 ## Getting started
 
-### Option 1: Docker Compose
+### Try it in your browser (no install)
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/kartikjaat970/semantic-search-platform)
+
+1. Click the badge and sign in to GitHub (a free account works).
+2. Wait 5 to 10 minutes on the first start while it builds and downloads the embedding model.
+3. Open the **Ports** tab and click the globe icon next to port **3000** (Frontend).
+4. Paste some text into **Upload**, then search it by meaning.
+
+Codespaces usage counts against your own free monthly hours, not mine. If the page loads but upload or search fails, set port **8000** to **Public** in the Ports tab (right-click it, Port Visibility).
+
+
+### Option 2: Docker Compose
 
 ```bash
 cp .env.example .env     # then edit the password
@@ -63,7 +75,7 @@ docker compose up --build
 
 The first build downloads the embedding model, so it takes a few minutes.
 
-### Option 2: Run the pieces yourself
+### Option 3: Run the pieces yourself
 
 **Prerequisites:** Docker (for the database), Python 3.10+, Node.js 18+
 

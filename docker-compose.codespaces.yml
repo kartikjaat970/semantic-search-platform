@@ -1,0 +1,9 @@
+# Overrides for GitHub Codespaces only: the browser reaches the app through
+# forwarded URLs, not localhost. Used together with docker-compose.yml.
+services:
+  backend:
+    environment:
+      CORS_ORIGINS: https://${CODESPACE_NAME}-3000.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}
+  frontend:
+    environment:
+      REACT_APP_API_URL: https://${CODESPACE_NAME}-8000.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}
