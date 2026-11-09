@@ -1,5 +1,7 @@
 # Semantic Search Platform
 
+[![Architecture diagram of kartikjaat970/semantic-search-platform](https://gitdiagram.com/kartikjaat970/semantic-search-platform/diagram.png)](https://gitdiagram.com/kartikjaat970/semantic-search-platform?utm_source=readme&utm_medium=picture)
+
 A full-stack app for searching documents by meaning instead of keywords. Text is split into chunks, converted to vector embeddings, and stored in PostgreSQL with pgvector. Natural-language queries are matched against those vectors, so results can be relevant even when they share no words with the query.
 
 Author: Kartik Chaudhary. Feel free to use the code.
