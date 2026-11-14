@@ -2,11 +2,11 @@ export default function Result({ results }) {
 	if (results === null) return null;
 
 	if (results.length === 0) {
-		return <p>No results. Upload some text first.</p>;
+		return <p className="empty">No results. Upload some text first.</p>;
 	}
 
 	return (
-		<div>
+		<div className="results">
 			<h3>Results</h3>
 			{results.map((r, i) => (
 				<div className="result" key={i}>

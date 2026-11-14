@@ -4,7 +4,6 @@ import api from "../api";
 
 import Result from "./Result";
 
-
 export default function Search() {
 	const [query, setQuery] = useState("");
 	const [results, setResults] = useState(null); // null = nothing searched yet
@@ -29,10 +28,10 @@ export default function Search() {
 	};
 
 	return (
-		<div className="card">
-			<h2>Search</h2>
+		<section className="search">
+			<h2>What are you looking for?</h2>
 
-			<form onSubmit={search}>
+			<form className="searchbar" onSubmit={search}>
 				<input
 					value={query}
 					onChange={e => setQuery(e.target.value)}
@@ -46,6 +45,6 @@ export default function Search() {
 			{error && <p className="error">{error}</p>}
 
 			<Result results={results} />
-		</div>
+		</section>
 	);
 }
