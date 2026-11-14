@@ -2,6 +2,7 @@ fastapi
 uvicorn
 sqlalchemy>=2.0
 psycopg2-binary
+psycopg[binary]
 pgvector
 sentence-transformers
 pydantic>=2
